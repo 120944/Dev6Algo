@@ -60,6 +60,7 @@
     <Compile Include="MapGenerator.fs" />
     <Compile Include="Game.fs" />
     <Content Include="packages.config" />
+    <Compile Include="ListHelper.fs" />
     <Compile Include="Sorting.fs" />
   </ItemGroup>
   <ItemGroup>
