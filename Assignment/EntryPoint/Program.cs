@@ -40,8 +40,11 @@ namespace EntryPoint
       goto read_input;
     }
 
+    private static readonly Func<Vector2, Func<Vector2, double>> Euclidian = t => v => Math.Pow(Math.Pow(t.X - v.X, 2.0) + Math.Pow(t.Y - v.Y, 2.0), 0.5);
+
     private static IEnumerable<Vector2> SortSpecialBuildingsByDistance(Vector2 house, IEnumerable<Vector2> specialBuildings) {
-      return specialBuildings.OrderBy(v => Vector2.Distance(v, house));
+      //Done
+      return Sorting.mergeSort(Euclidian.Invoke(house), (FSharpList<Vector2>)specialBuildings);
     }
 
     private static IEnumerable<IEnumerable<Vector2>> FindSpecialBuildingsWithinDistanceFromHouse(
