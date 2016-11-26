@@ -50,12 +50,9 @@ namespace EntryPoint
     private static IEnumerable<IEnumerable<Vector2>> FindSpecialBuildingsWithinDistanceFromHouse(
       IEnumerable<Vector2> specialBuildings,
       IEnumerable<Tuple<Vector2, float>> housesAndDistances) {
-      return
-          from h in housesAndDistances
-          select
-            from s in specialBuildings
-            where Vector2.Distance(h.Item1, s) <= h.Item2
-            select s;
+      //Done
+      Func<Tuple<Vector2, float>, Predicate<Vector2>> predicate = t => v => Euclidian.Invoke(t.Item1).Invoke(v) <= t.Item2;
+      return Sorting.FindWithinDistance((FSharpList<Vector2>)specialBuildings, (FSharpList<Tuple<Vector2, float>>)housesAndDistances, predicate);
     }
 
     private static IEnumerable<Tuple<Vector2, Vector2>> FindRoute(Vector2 startingBuilding,

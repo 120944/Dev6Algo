@@ -1,6 +1,7 @@
 ﻿module Sorting
     open Microsoft.Xna.Framework
     open System
+    open ListHelper
 
     let rec split_on = function 
         | (n, []) -> ([],[])
@@ -31,3 +32,12 @@
             let l_sorted = mergeSort selector l
             let r_sorted = mergeSort selector r
             mergeList selector l_sorted r_sorted
+
+    let find_within_distance = fun (list : Vector2 list) (pred:Predicate<Vector2>) ->
+        filterC pred list
+
+    let rec FindWithinDistance = fun (list:Vector2 list) (targetTuples:Tuple<Vector2,float32> list) (pred:Func<Tuple<Vector2,float32>, Predicate<Vector2>>) ->
+        match targetTuples with
+        | [] -> []
+        | t::ts ->
+            (find_within_distance list (pred.Invoke(t))) :: (FindWithinDistance list ts pred)
