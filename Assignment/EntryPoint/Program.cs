@@ -43,8 +43,14 @@ namespace EntryPoint
     private static readonly Func<Vector2, Func<Vector2, double>> Euclidian = t => v => Math.Pow(Math.Pow(t.X - v.X, 2.0) + Math.Pow(t.Y - v.Y, 2.0), 0.5);
 
     private static IEnumerable<Vector2> SortSpecialBuildingsByDistance(Vector2 house, IEnumerable<Vector2> specialBuildings) {
+      var euclidian_from_house = Euclidian.Invoke(house);
       //Done
-      return Sorting.mergeSort(Euclidian.Invoke(house), (FSharpList<Vector2>)specialBuildings);
+      //F# - Implementation method found in Sorting.fs
+      return Sorting.mergeSort(euclidian_from_house, (FSharpList<Vector2>)specialBuildings);
+
+      //C# - Implementation method below
+      //      MergeSort(ref specialBuildings, 0, specialBuildings.Count(), euclidian_from_house);
+      //      return specialBuildings;
     }
 
     private static IEnumerable<IEnumerable<Vector2>> FindSpecialBuildingsWithinDistanceFromHouse(
@@ -85,6 +91,48 @@ namespace EntryPoint
         result.Add(fakeBestPath);
       }
       return result;
+    }
+
+    // C# MergeSort implementation
+    private static void Merge(ref IEnumerable<Vector2> list, int left, int middle, int right, Func<Vector2, double> selector) {
+      Vector2[] _list = list.ToArray();
+      Vector2[] _temp = new Vector2[_list.Length];
+      int l1, l2, i;
+
+      for (l1 = left, l2 = middle + 1, i = left; i <= middle && l2 <= right; i++) {
+        if (selector.Invoke(_list[l1]) <= selector.Invoke(_list[l2])) {
+          _temp[i] = _list[l1++];
+        }
+        else {
+          _temp[i] = _list[l2++];
+        }
+      }
+
+      while (l1 <= middle) {
+        _temp[i++] = _list[l1++];
+      }
+
+      while (l2 <= right) {
+        _temp[i++] = _list[l2++];
+      }
+
+      for (i = left; i <= right; i++) {
+        _list[i] = _temp[i];
+      }
+
+      list = _list;
+    }
+
+    private static void MergeSort(ref IEnumerable<Vector2> list, int left, int right, Func<Vector2, double> selector) {
+      if (left < right) {
+        int middle = (left + right) / 2;
+        MergeSort(ref list, left, middle, selector);
+        MergeSort(ref list, middle + 1, right, selector);
+        Merge(ref list, left, middle, right, selector);
+      }
+      else {
+        return;
+      }
     }
   }
 #endif
