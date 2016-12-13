@@ -56,7 +56,7 @@ namespace EntryPoint
     private static IEnumerable<IEnumerable<Vector2>> FindSpecialBuildingsWithinDistanceFromHouse(
       IEnumerable<Vector2> specialBuildings,
       IEnumerable<Tuple<Vector2, float>> housesAndDistances) {
-      //Done
+      //WIP -> Implement using tree data structure instead of list
       Func<Tuple<Vector2, float>, Predicate<Vector2>> predicate = t => v => Euclidian.Invoke(t.Item1).Invoke(v) <= t.Item2;
       return Sorting.FindWithinDistance((FSharpList<Vector2>)specialBuildings, (FSharpList<Tuple<Vector2, float>>)housesAndDistances, predicate);
     }
