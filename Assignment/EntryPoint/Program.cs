@@ -10,46 +10,46 @@ namespace EntryPoint
   public static class Program
   {
 
-    [STAThread]
-    static void Main()
-    {
-
-      var fullscreen = false;
-      read_input:
-      switch (Microsoft.VisualBasic.Interaction.InputBox("Which assignment shall run next? (1, 2, 3, 4, or q for quit)", "Choose assignment", VirtualCity.GetInitialValue()))
-      {
-        case "1":
-          using (var game = VirtualCity.RunAssignment1(SortSpecialBuildingsByDistance, fullscreen))
-            game.Run();
-          break;
-        case "2":
-          using (var game = VirtualCity.RunAssignment2(FindSpecialBuildingsWithinDistanceFromHouse, fullscreen))
-            game.Run();
-          break;
-        case "3":
-          using (var game = VirtualCity.RunAssignment3(FindRoute, fullscreen))
-            game.Run();
-          break;
-        case "4":
-          using (var game = VirtualCity.RunAssignment4(FindRoutesToAll, fullscreen))
-            game.Run();
-          break;
-        case "q":
-          return;
-      }
-      goto read_input;
-    }
+//    [STAThread]
+//    static void Main()
+//    {
+//
+//      var fullscreen = false;
+//      read_input:
+//      switch (Microsoft.VisualBasic.Interaction.InputBox("Which assignment shall run next? (1, 2, 3, 4, or q for quit)", "Choose assignment", VirtualCity.GetInitialValue()))
+//      {
+//        case "1":
+//          using (var game = VirtualCity.RunAssignment1(SortSpecialBuildingsByDistance, fullscreen))
+//            game.Run();
+//          break;
+//        case "2":
+//          using (var game = VirtualCity.RunAssignment2(FindSpecialBuildingsWithinDistanceFromHouse, fullscreen))
+//            game.Run();
+//          break;
+//        case "3":
+//          using (var game = VirtualCity.RunAssignment3(FindRoute, fullscreen))
+//            game.Run();
+//          break;
+//        case "4":
+//          using (var game = VirtualCity.RunAssignment4(FindRoutesToAll, fullscreen))
+//            game.Run();
+//          break;
+//        case "q":
+//          return;
+//      }
+//      goto read_input;
+//    }
 
     private static readonly Func<Vector2, Func<Vector2, double>> Euclidian = t => v => Math.Pow(Math.Pow(t.X - v.X, 2.0) + Math.Pow(t.Y - v.Y, 2.0), 0.5);
 
     private static IEnumerable<Vector2> SortSpecialBuildingsByDistance(Vector2 house, IEnumerable<Vector2> specialBuildings) {
-      var euclidian_from_house = Euclidian.Invoke(house);
+      var euclidianFromHouse = Euclidian.Invoke(house);
       //Done
       //F# - Implementation method found in Sorting.fs
-      return Sorting.mergeSort(euclidian_from_house, (FSharpList<Vector2>)specialBuildings);
+      return Sorting.mergeSort(euclidianFromHouse, (FSharpList<Vector2>)specialBuildings);
 
       //C# - Implementation method below
-      //      MergeSort(ref specialBuildings, 0, specialBuildings.Count(), euclidian_from_house);
+      //      MergeSort(ref specialBuildings, 0, specialBuildings.Count(), euclidianFromHouse);
       //      return specialBuildings;
     }
 
