@@ -109,6 +109,7 @@ namespace EntryPoint.Type {
       return null;
     }
 
+    // For 'casting' the IEnumerable in ex2
     public static Tree2D FromEnumerable(IEnumerable<Vector2> enumerable) {
       var tree = new Tree2D(Vector2.Zero);
       for (int i = 0; i < enumerable.Count(); i++) {
@@ -122,13 +123,14 @@ namespace EntryPoint.Type {
       return tree;
     }
 
+    // Used for visualising
     public enum Relativity {
       ROOT,
       LEFT,
       RIGHT
     }
 
-    // Temporary
+    // Visualising code
     public string GetString(bool getChildren) {
       var sb = new StringBuilder();
       sb.Append(Parent != null
@@ -144,6 +146,20 @@ namespace EntryPoint.Type {
 
     public override string ToString() {
       return GetString(true);
+    }
+
+    // Filtering on predicate
+    public static List<Vector2> FilterTree(Tree2D tree, Predicate<Vector2> p) {
+      var result = new List<Vector2>();
+      fill_with_filtered(ref result, tree, p);
+      return result;
+    }
+
+    private static void fill_with_filtered(ref List<Vector2> fillme, Tree2D tree, Predicate<Vector2> p) {
+      if (p.Invoke(tree.Value)) fillme.Add(tree.Value);
+      foreach (var child in tree.Children.Where(child => child != null)) {
+        fill_with_filtered(ref fillme, (Tree2D)child, p);
+      }
     }
   }
 }
