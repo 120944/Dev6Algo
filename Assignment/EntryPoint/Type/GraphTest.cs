@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework;
 
 namespace EntryPoint.Type {
   public class GraphTest {
-    public static readonly Func<Vector2, Func<GraphNode, double>> Euclosure =
+    public static readonly Func<Vector2, Func<GraphVertex, double>> Euclosure =
       t => n => Math.Pow(Math.Pow(t.X - n.Value.X, 2.0) + Math.Pow(t.Y - n.Value.Y, 2.0), 0.5);
 
     public static void Main(string[] args) {
       var start = new Vector2(5, 5);
       var end = new Vector2(10,0);
-      var graph = new GraphNode(start);
+      var graph = new GraphVertex(start);
 
       Vector2[][] toadd = {
         new [] { new Vector2(5,4) }, // From point 5,5
@@ -30,7 +30,7 @@ namespace EntryPoint.Type {
 
       foreach (var varr in toadd) {
         foreach (var vector2 in varr) {
-          current.AddNeighbourNode(new GraphNode(vector2));
+          current.AddNeighbourNode(new GraphVertex(vector2));
         }
         try {
           current = current.Connections[1].GetConnected(current);
@@ -40,9 +40,9 @@ namespace EntryPoint.Type {
         }
         
       }
-      current.AddNeighbourNode(new GraphNode(end));
+      current.AddNeighbourNode(new GraphVertex(end));
 
-      GraphNode.PrintConnectionsFrom(graph);
+      GraphVertex.PrintConnectionsFrom(graph);
       Console.Read();
     } 
   }

@@ -1,48 +1,71 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using static EntryPoint.Type.Euclidian;
 
 namespace EntryPoint.Type {
   public class GraphVertex {
-    private Tuple<GraphNode, GraphNode> _connections;
-    private int _weight;
+    private Vector2 _value;
+    private IList<GraphEdge> _connections;
+    private bool visited = false;
+    private GraphVertex _previous = null;
 
-    public GraphVertex(int weight, GraphNode from, GraphNode to) {
-      _weight = weight;
-      _connections = new Tuple<GraphNode, GraphNode>(from, to);
-      to.Connections.Add(this);
+    public GraphVertex(Vector2 value) {
+      _value = value;
+      _connections = new List<GraphEdge>();
     }
 
-    public int Weight {
-      get { return _weight; }
-      set { _weight = value; }
+    public IEnumerable<GraphEdge> Connections => _connections;
+    public Vector2 Value => _value;
+
+    public void AddEdge(GraphVertex target, double distance) {
+      if (target == null) throw new ArgumentNullException("target");
+      if (target == this) throw new ArgumentException("Current implementation neither expects nor allows Vertices to connect to themselves.");
+      if (distance <= 0) throw new ArgumentException("Distance must be positive.");
+      _connections.Add(new GraphEdge(target, distance));
+
     }
 
-    public Tuple<GraphNode, GraphNode> Connections {
-      get { return _connections; }
-      set { _connections = value; }
+    public static void PrintAllNodesFrom(GraphVertex root) {
+      Console.WriteLine($"Root Node: {root}\n");
+      print_nodes_rec(root);
     }
 
-//    public GraphNode Fst {
-//      get { return _connections.Item1; }
-//      set { _connections = new Tuple<GraphNode, GraphNode>(value, _connections.Item2); } 
-//    }
-//
-//    public GraphNode Snd {
-//      get { return _connections.Item2; }
-//      set { _connections = new Tuple<GraphNode, GraphNode>(_connections.Item1, value); }
-//    }
-
-    public GraphNode GetConnected(GraphNode from) {
-      if (_connections.Item1 == from) {
-        return _connections.Item2;
+    private static void print_nodes_rec(GraphVertex current) {
+      current.visited = true;
+      Console.WriteLine(current);
+      foreach (var vertex in current._connections) {
+        var node = vertex.GetConnected(current);
+        if (!node.visited) {
+          PrintAllNodesFrom(node);
+        }
       }
-      if (_connections.Item2 == from) {
-        return _connections.Item1;
+    }
+
+    public static void PrintConnectionsFrom(GraphVertex root) {
+      Console.WriteLine($"Root Node: {root}\n");
+      print_conn_rec(root, null);
+    }
+
+    private static void print_conn_rec(GraphVertex current, List<GraphEdge> seen) {
+      current.visited = true;
+      if (seen == null)
+        seen = new List<GraphEdge>();
+      foreach (var vertex in current._connections) {
+        var node = vertex.GetConnected(current);
+        if (!seen.Contains(vertex)) {
+          Console.WriteLine(vertex);
+          seen.Add(vertex);
+        }
+        if (!node.visited) {
+          print_conn_rec(node, seen);
+        }
       }
-      return null;
     }
 
     public override string ToString() {
-      return $"{_connections.Item1} --[{_weight}]-> {_connections.Item2}";
+      return $"{_value}";
     }
   }
 }

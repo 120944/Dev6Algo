@@ -50,9 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Type\Dijkstra.cs" />
     <Compile Include="Type\Euclidian.cs" />
-    <Compile Include="Type\GraphNode.cs" />
-    <Compile Include="Type\GraphTest.cs" />
+    <Compile Include="Type\Graph.cs" />
     <Compile Include="Type\GraphVertex.cs" />
+    <Compile Include="Type\GraphTest.cs" />
+    <Compile Include="Type\GraphEdge.cs" />
     <Compile Include="Type\TreeTest.cs" />
     <Compile Include="Type\Node.cs" />
     <Compile Include="Type\Tree2D.cs" />
