@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace EntryPoint.Type {
-  public class Node<T> : Visitable, IDisposable {
+  public class Node<T> : IDisposable {
     protected T _value;
     protected Node<T>[] _children;
 
