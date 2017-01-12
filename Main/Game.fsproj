@@ -61,6 +61,7 @@
     <Compile Include="Game.fs" />
     <Content Include="packages.config" />
     <Compile Include="ListHelper.fs" />
+    <Compile Include="MathUtils.fs" />
     <Compile Include="Sorting.fs" />
   </ItemGroup>
   <ItemGroup>

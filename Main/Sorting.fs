@@ -13,17 +13,17 @@
     let split = fun (list : 'a list) -> 
         split_on (list.Length/2, list)
 
-    let rec mergeList = fun (selector:Func<'a,'b>) l r ->
+    let rec mergeList = fun (selector: 'a -> 'b) l r ->
         match (l, r) with
         | [], l -> l
         | l, [] -> l
         | x::xs, y::ys ->
-            if (selector.Invoke(x)) <= (selector.Invoke(y)) then
+            if (selector x) <= (selector y) then
                 x :: (mergeList selector xs (y::ys))
             else
                 y :: (mergeList selector (x::xs) ys)
 
-    let rec mergeSort = fun (selector:Func<'a,'b>) (list : 'a list) ->
+    let rec mergeSort = fun (selector: 'a -> 'b) (list : 'a list) ->
         match list with
         | [] -> [] // no elements or end of list
         | [x] -> [x] // one element or last element
