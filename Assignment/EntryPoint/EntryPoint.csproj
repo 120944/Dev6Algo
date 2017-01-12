@@ -52,12 +52,9 @@
     <Compile Include="Type\Euclidian.cs" />
     <Compile Include="Type\Graph.cs" />
     <Compile Include="Type\GraphVertex.cs" />
-    <Compile Include="Type\GraphTest.cs" />
     <Compile Include="Type\GraphEdge.cs" />
-    <Compile Include="Type\TreeTest.cs" />
     <Compile Include="Type\Node.cs" />
     <Compile Include="Type\Tree2D.cs" />
-    <Compile Include="Type\Visitable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
